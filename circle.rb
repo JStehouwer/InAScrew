@@ -1,36 +1,18 @@
-#credit to https://gist.github.com/jlnr/661266
-require 'rubygems'
 require 'gosu'
 
 class Circle
-  attr_reader :columns, :rows
-  
-  def initialize radius
-    @columns = @rows = radius * 2
-    lower_half = (0...radius).map do |y|
-      x = Math.sqrt(radius**2 - y**2).round
-      right_half = "#{"\xff" * x}#{"\x00" * (radius - x)}"
-      "#{right_half.reverse}#{right_half}"
-    end.join
-    @blob = lower_half.reverse + lower_half
-    @blob.gsub!(/./) { |alpha| "\xff\xff\xff#{alpha}"}
+  def initialize(x1, y1, x2, y2)
+    @x1, @y1 = x1,y1 #center of circle
+    @radius = dist(x1, y1, x2, y2)
+    @circle = Gosu::Image.new("media/circle.png",:tileable=>true)
   end
-  
-  def to_blob
-    @blob
-  end
-end
 
-class TestWin < Gosu::Window
-  def initialize
-    super 400, 400, false
-    
-    @img = Gosu::Image.new(self, Circle.new(200), false)
-  end
-  
   def draw
-    @img.draw 0, 0, 0
+    @circle.draw(@x1-@radius,@y1-@radius,2,@radius*0.006,@radius*0.006) #drawing at center
   end
-end
 
-TestWin.new.show
+  def dist(spotX, spotY, spotX2, spotY2)
+     Math.sqrt( (spotX - spotX2)*(spotX - spotX2) + (spotY - spotY2)*(spotY - spotY2) )
+  end
+
+end
