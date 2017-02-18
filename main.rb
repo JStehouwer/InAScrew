@@ -6,7 +6,16 @@ class Main < Gosu::Window
   def initialize
     super 1024, 768
     self.caption = "Game"
+
 		rng = Random.new()
+		# Parse arguments
+		(0..ARGV.length-1).each do |arg|
+			if ARGV[arg] == "-r"
+				rng = Random.new(ARGV[arg+1].to_i)
+				puts "Seed set"
+			end
+		end
+
 		@map = Map.new(self.height,self.width,rng,150)
 
     @background_image = Gosu::Image.new("media/background.png", :tileable=>true);
