@@ -2,7 +2,6 @@ require 'gosu'
 require 'pry'
 
 require_relative 'quad.rb'
-require_relative 'circle.rb'
 
 class CarMaker < Gosu::Window
   def initialize
@@ -18,6 +17,7 @@ class CarMaker < Gosu::Window
     @clickedX4 = -1
     @clickedY4 = -1
     @myQuad = Quad.new(10,10,10,20,20,20,20,10)
+    @circle = Gosu::Image.new("media/circle.png",:tileable=>true)
   end
 
   def update
@@ -69,8 +69,8 @@ class CarMaker < Gosu::Window
   def draw
     # ...
     @myQuad.draw
-    
-    draw_quad(mouse_x, mouse_y, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y+5, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y, 0xffffffff, mouse_x, mouse_y+5, Gosu::Color.argb(0xffffffff), z=1, mode = :default)
+    @circle.draw(100,100,2,0.1,0.1)
+    draw_quad(mouse_x, mouse_y, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y+5, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y, 0xffffffff, mouse_x, mouse_y+5, Gosu::Color.argb(0xffffffff), z=500, mode = :default)
   end
 end
 
