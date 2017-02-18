@@ -1,5 +1,6 @@
 require 'gosu'
 require_relative 'map'
+require_relative 'car'
 
 class Main < Gosu::Window
   def initialize
@@ -11,6 +12,8 @@ class Main < Gosu::Window
     @background_image = Gosu::Image.new("media/background.png", :tileable=>true);
 		@camera_x = 0
 		@camera_y = 0
+
+		@car = Car.new(150, 400)
   end
 
   def update
@@ -29,6 +32,7 @@ class Main < Gosu::Window
   end
 
   def draw
+		@car.draw(@camera_x,@camera_y)
 		@map.draw(@camera_x, @camera_y)
     @background_image.draw(0,0,0)
   end

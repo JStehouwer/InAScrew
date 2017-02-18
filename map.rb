@@ -9,8 +9,9 @@ class Map
 		@y_base = w_height-250
 		coord_heights = [-45, -30, -15, 0, 15, 30, 45]
 		@y_coords = [@y_base,@y_base]
-		(1..4).each do |i|
-			@y_coords << @y_coords[i-1]+coord_heights[rng.rand(0..coord_heights.length-1)]
+		(1..100).each do |i|
+			#@y_coords << @y_coords[i-1]+coord_heights[rng.rand(0..coord_heights.length-1)]
+			@y_coords << @y_coords[i=1]+rng.rand(-50..50)
 		end
     @track_pieces = []
 		(0..@y_coords.length-2).each do | i |
