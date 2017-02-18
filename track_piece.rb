@@ -11,7 +11,11 @@ class TrackPiece < Gosu::Image
 		@white = Gosu::Color::WHITE
   end
 
-  def draw
-    Gosu.draw_quad(@x1,@y1,@white,@x2,@y2,@white,@x2,@y2+@h,@white,@x1,@y1+@h,@white,1)
+  def draw(camera_x, camera_y)
+    Gosu.draw_quad(@x1-camera_x,@y1-camera_y,@white,
+									 @x2-camera_x,@y2-camera_y,@white,
+									 @x2-camera_x,@y2+@h-camera_y,@white,
+									 @x1-camera_x,@y1+@h-camera_y,@white,
+									 1)
   end
 end

@@ -7,9 +7,10 @@ class Map
 		@x_start = 50
 		@length = piece_length
 		@y_base = w_height-250
+		coord_heights = [-45, -30, -15, 0, 15, 30, 45]
 		@y_coords = [@y_base,@y_base]
 		(1..4).each do |i|
-			@y_coords << @y_coords[i-1]+rng.rand(-25..25)
+			@y_coords << @y_coords[i-1]+coord_heights[rng.rand(0..coord_heights.length-1)]
 		end
     @track_pieces = []
 		(0..@y_coords.length-2).each do | i |
@@ -17,9 +18,9 @@ class Map
 		end
   end
 
-  def draw
+  def draw(camera_x, camera_y)
     @track_pieces.each do | piece |
-			piece.draw()
+			piece.draw(camera_x, camera_y)
     end
   end
 
