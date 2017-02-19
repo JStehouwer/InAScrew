@@ -27,6 +27,8 @@ class CarMaker < Gosu::Window
     #@circleArray = Array.new
     @shapeArray = Array.new
 
+    @frameNumber = 20
+
     @mode = 0
 
     @saved = false
@@ -54,6 +56,7 @@ class CarMaker < Gosu::Window
         @loaded = false
         @quadButton.onClick
         @circleButton.onRelease
+        @deleteButton.onRelease
         @mode = 1
 
       elsif (@circleButton.isClicked(mouse_x, mouse_y))
@@ -63,6 +66,7 @@ class CarMaker < Gosu::Window
         @loaded = false
         @circleButton.onClick
         @quadButton.onRelease
+        @deleteButton.onRelease
         @mode = 2
 
       elsif (@saveButton.isClicked(mouse_x, mouse_y))
@@ -70,28 +74,34 @@ class CarMaker < Gosu::Window
         @circleButton.onRelease
         @quadButton.onRelease
         @loadButton.onRelease
+        @deleteButton.onRelease
         if not @saved
           @saved = true
           save
         end
+        @mode = 0
       elsif (@loadButton.isClicked(mouse_x, mouse_y))
         @loadButton.onClick
         @circleButton.onRelease
         @quadButton.onRelease
         @saveButton.onRelease
+        @deleteButton.onRelease
         if not @loaded
           @loaded = true
           load
         end
-        elsif (@deleteButton.isClicked(mouse_x, mouse_y))
-          #if delete
-            @saveButton.onRelease
-            @saved = false
-            @loadButton.onRelease
-            @loaded = false
-            @circleButton.onClick
-            @quadButton.onRelease
-          #end
+        @mode = 0
+      elsif (@deleteButton.isClicked(mouse_x, mouse_y))
+        puts("yay")
+        @saveButton.onRelease
+        @saved = false
+        @loadButton.onRelease
+        @loaded = false
+        @circleButton.onRelease
+        @quadButton.onRelease
+        @deleteButton.onClick
+        @mode = 3
+        puts(@mode.to_s)
     elsif @mode == 1
         puts("X1: ", @clickedX1, "Y1: ", @clickedY1, "X2 ", @clickedX2, "Y2 ", @clickedY2, "X3 " ,@clickedX3, "Y3 " , @clickedY3, "X4 ", @clickedX4, "Y4", @clickedY4)
         if @clickedX1 == -1  #have not reset
@@ -135,16 +145,40 @@ class CarMaker < Gosu::Window
           end
         elsif @circleX2 == -1 #have not reset
           if dist(@circleX1, @circleY1, mouse_x, mouse_y) > 10
-          @circleX2 = mouse_x
-          @circleY2 = mouse_y
-          #@myCircle = Circle.new(@circleX1, @circleY1, @circleX2, @circleY2)
-          @shapeArray.push(Circle.new(@circleX1, @circleY1, @circleX2, @circleY2)) 
-          @circleX1 = -1       
-          @circleY1 = -1
+            @circleX2 = mouse_x
+            @circleY2 = mouse_y
+            #@myCircle = Circle.new(@circleX1, @circleY1, @circleX2, @circleY2)
+            @shapeArray.push(Circle.new(@circleX1, @circleY1, @circleX2, @circleY2)) 
+            @circleX1 = -1       
+            @circleY1 = -1
+          end
         end
+    elsif @mode == 3
+      if @frameNumber > 10
+      puts("Hello from the other side.")
+      deleted = false
+      tempShapeArray = Array.new
+      while not @shapeArray.to_a.empty?
+        temp = @shapeArray.pop
+        if temp.contains(mouse_x, mouse_y) and not deleted
+          puts ("Shape deleted")
+          deleted = true
+          @frameNumber = 0
+        else
+          tempShapeArray.push(temp)
+        end
+      end
+      puts(tempShapeArray.length)
+      @shapeArray = Array.new
+      while not tempShapeArray.to_a.empty?
+        @shapeArray.push(tempShapeArray.pop)
+      end
     end
   end
+  if @mode == 3
+    @frameNumber+=1
   end
+end
 
   def dist(spotX, spotY, spotX2, spotY2)
     puts('spotX', spotX, 'spotY', spotY, 'spotX2', spotX2, 'spotY2', spotY2)

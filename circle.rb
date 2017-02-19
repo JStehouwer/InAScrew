@@ -19,4 +19,8 @@ class Circle
      "2 " + @x1.to_s + " " + @y1.to_s + " " + @radius.to_s
   end
 
+  def contains(x2, y2)
+    dist(@x1,@y1,x2,y2)<@radius
+  end
+
 end
