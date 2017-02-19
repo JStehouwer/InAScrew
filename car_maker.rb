@@ -99,7 +99,7 @@ class CarMaker < Gosu::Window
         end
         @mode = 0
       elsif (@deleteButton.isClicked(mouse_x, mouse_y))
-        puts("yay")
+        puts("delete button")
         @saveButton.onRelease
         @saved = false
         @loadButton.onRelease
@@ -161,13 +161,13 @@ class CarMaker < Gosu::Window
           end
         end
     elsif @mode == 3
-      if @frameNumber > 10
-      puts("Hello from the other side.")
+      if @frameNumber > 6
+      puts("mode 3")
       deleted = false
-      tempShapeArray = Array.new
-      while not @shapeArray.to_a.empty?
+      tempShapeArray = Array.new #new shape array
+      while not @shapeArray.to_a.empty? #while the shape array is not empty
         temp = @shapeArray.pop
-        if temp.contains(mouse_x, mouse_y) and not deleted
+        if not deleted #if the shape should be deleted
           puts ("Shape deleted")
           deleted = true
           @frameNumber = 0
