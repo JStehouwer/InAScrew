@@ -4,9 +4,11 @@ require_relative 'circle.rb'
 require_relative 'quad.rb'
 require_relative 'button.rb'
 require_relative 'car.rb'
+require_relative 'main.rb'
 
 class CarMaker < Gosu::Window
   def initialize
+	
 		@filename = "dopestCarEva.txt"
 		# Parse arguments
 		(0..ARGV.length-1).each do |arg|
@@ -39,6 +41,8 @@ class CarMaker < Gosu::Window
     @saved = false
     @loaded = false
 
+		@switchWindow = false
+
     @myCircle = Circle.new(100,100, 200, 200)
     @myQuad = Quad.new(10,10,10,20,20,20,20,10)
     @quadButton = Button.new(0,0,"media/quadButton1.png", "media/quadButton2.png", 195, 46)
@@ -47,6 +51,8 @@ class CarMaker < Gosu::Window
     @saveButton = Button.new(0,46, "media/saveButton1.png","media/saveButton2.png",102,46)
     @loadButton = Button.new(102,46, "media/loadButton1.png","media/loadButton2.png",103,46)
     @helpButton = Button.new(205,46, "media/helpButton1.png","media/helpButton2.png",102,46)
+		@launchButton = Button.new(300, 46, "media/launchButton1.png", "media/launchButton2.png", 95, 46)
+
 
   end
 
@@ -105,6 +111,13 @@ class CarMaker < Gosu::Window
         @quadButton.onRelease
         @deleteButton.onClick
         @mode = 3
+		elsif (@launchButton.isClicked(mouse_x, mouse_y))
+				game_window = Main.new
+  			game_window.show
+				
+
+
+
     elsif @mode == 1
         if @clickedX1 == -1  #have not reset
           if dist(@clickedX4, @clickedY4, mouse_x, mouse_y) > 10
@@ -211,6 +224,7 @@ end
     @saveButton.draw
     @loadButton.draw
     @helpButton.draw
+		@launchButton.draw
     draw_quad(mouse_x, mouse_y, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y+5, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y, 0xffffffff, mouse_x, mouse_y+5, Gosu::Color.argb(0xffffffff), z=500, mode = :default)
   end
 end

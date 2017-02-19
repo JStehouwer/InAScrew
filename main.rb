@@ -72,4 +72,4 @@ class Main < Gosu::Window
   end
 end
 
-Main.new.show
+
