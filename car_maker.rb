@@ -84,14 +84,14 @@ class CarMaker < Gosu::Window
           load
         end
         elsif (@deleteButton.isClicked(mouse_x, mouse_y))
-          if delete
+          #if delete
             @saveButton.onRelease
             @saved = false
             @loadButton.onRelease
             @loaded = false
             @circleButton.onClick
             @quadButton.onRelease
-          @mode = 2
+          #end
     elsif @mode == 1
         puts("X1: ", @clickedX1, "Y1: ", @clickedY1, "X2 ", @clickedX2, "Y2 ", @clickedY2, "X3 " ,@clickedX3, "Y3 " , @clickedY3, "X4 ", @clickedX4, "Y4", @clickedY4)
         if @clickedX1 == -1  #have not reset
