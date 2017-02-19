@@ -1,6 +1,8 @@
 require 'gosu'
 require_relative 'track_piece'
 
+require 'pry'
+
 class Map
 
   def initialize(w_height,w_width,rng,piece_length=300)
@@ -25,4 +27,14 @@ class Map
     end
   end
 
+	def is_grounded(object)
+		object_points = object.lowest_points()
+		@track_pieces.each do |piece|
+			val = piece.below_object(object.leftmost_point, object.rightmost_point, object_points)
+			if val != -1
+				return val
+			end
+		end
+		return -1
+	end
 end

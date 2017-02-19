@@ -21,16 +21,19 @@ class Main < Gosu::Window
     @background_image = Gosu::Image.new("media/background.png", :tileable=>true);
 		@camera_x = 0
 		@camera_y = 0
+		@gravity = 1
 
-		@car = Car.new(150, 400)
+		@car = Car.new(125, 400)
   end
 
   def update
     if Gosu.button_down?(Gosu::KB_RIGHT)
 			@camera_x += 20
+			@car.move(20, 0)
 		end
 		if Gosu.button_down?(Gosu::KB_LEFT)
 			@camera_x -= 20
+			@car.move(-20, 0)
 		end
 		if Gosu.button_down?(Gosu::KB_UP)
 			@camera_y -= 20
@@ -38,7 +41,18 @@ class Main < Gosu::Window
 		if Gosu.button_down?(Gosu::KB_DOWN)
 			@camera_y += 20
 		end
+		puts "x anchor: #{@car.get_x}"
+		feel_gravity(@car)
   end
+
+	def feel_gravity(object)
+		val = @map.is_grounded(@car)
+		if val != -1
+			@car.upto(val)
+		else
+			@car.gravitize(@gravity)
+		end
+	end
 
   def draw
 		@car.draw(@camera_x,@camera_y)
