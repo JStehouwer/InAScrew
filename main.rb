@@ -58,6 +58,7 @@ class Main < Gosu::Window
 		new_y_anchor = @map.is_grounded(@car) 
 		if new_y_anchor != -1 #if there is a part of it below ground
 			#puts(new_y_anchor)
+			#puts(@car.get_anchor[1])
 			@car.move(0,new_y_anchor-@car.get_anchor[1]) #push up
 			#puts("up!")
 		else

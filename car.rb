@@ -47,13 +47,14 @@ class Car
 			max_y = 0
 			@carArray.each do |shape|
 				y = shape.lowest_for_x(x)
-				y = y ? y+@y_anchor : 0
 				#puts(y)
 				if y
+					y += @y_anchor
 					max_y = max_y > y ? max_y : y
 				end
 			end
 			result[x] = max_y
+			#puts(max_y)
 		end
 		return result
 	end

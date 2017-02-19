@@ -34,6 +34,7 @@ class Circle
 	# Returns the lowest y value for a given x
 	def lowest_for_x(x)
 		points = lowest_points
+		#puts points[x]
 		return points[x]
 	end
 
@@ -49,8 +50,9 @@ class Circle
 	def lowest_points
 		vals = {}
 		(@x1-@radius..@x1+@radius).each do |a|
-			vals[a] = Math.sqrt(@radius*@radius-(@x1-a)*(@x1-a)).round
+			vals[a] = @y1+Math.sqrt(@radius*@radius-(@x1-a)*(@x1-a)).round
 		end
+		#puts vals[@x1]
 		return vals
 	end
 
