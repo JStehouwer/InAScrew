@@ -50,4 +50,22 @@ class Car
 		return @x_anchor
 	end
 
+	def load
+    	shapeArray = Array.new
+    	f = File.open("dopestCarEva.txt", "r")
+    	f.each_line { |line|
+    		words = line.split
+    		numbers = Array.new
+    		words.each{|word| numbers.push(word.to_f)}
+    		print words[0]
+    		print words[1]
+    		if numbers[0] == 1
+        		shapeArray.push(Quad.new(numbers[1],numbers[2],numbers[3],numbers[4],numbers[5],numbers[6],numbers[7],numbers[8]))
+    		elsif numbers[0] == 2
+        		shapeArray.push(Circle.new(numbers[1],numbers[2],numbers[1]+numbers[3],numbers[2]))
+    		end
+    	}
+    	f.close
+  end
+
 end

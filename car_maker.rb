@@ -63,7 +63,7 @@ class CarMaker < Gosu::Window
         @quadButton.onRelease
         if not @saved
           @saved = true
-          save
+          load
         end
 
     elsif @mode == 1
@@ -131,6 +131,26 @@ class CarMaker < Gosu::Window
     }
   end
 
+  def load
+    @shapeArray = Array.new
+    puts "hi"
+    f = File.open("dopestCarEva.txt", "r")
+      puts "I am happy."
+      f.each_line { |line|
+      words = line.split
+      numbers = Array.new
+      words.each{|word| numbers.push(word.to_f)}
+      print words[0]
+      print words[1]
+      if numbers[0] == 1
+        @shapeArray.push(Quad.new(numbers[1],numbers[2],numbers[3],numbers[4],numbers[5],numbers[6],numbers[7],numbers[8]))
+      elsif numbers[0] == 2
+        @shapeArray.push(Circle.new(numbers[1],numbers[2],numbers[1]+numbers[3],numbers[2]))
+      end
+    }
+    f.close
+  end
+
   def draw
     @myQuad.draw
     #@circleArray.each{|circle| circle.draw}
@@ -150,7 +170,6 @@ end
       super
     end
   end
-
 
 end
 CarMaker.new.show
