@@ -8,7 +8,7 @@ class Circle
   end
 
   def draw(xCor, yCor)
-    @circle.draw(@x1-@radius + xCor,@y1-@radius + yCor,1,@radius*0.006,@radius*0.006) #drawing at center
+    @circle.draw(@x1-@radius + xCor, @y1-@radius + yCor, 1, @radius*0.006, @radius*0.006) #drawing at center
   end
 
   def dist(spotX, spotY, spotX2, spotY2)
@@ -34,7 +34,6 @@ class Circle
 	# Returns the lowest y value for a given x
 	def lowest_for_x(x)
 		points = lowest_points
-		#puts points[x]
 		return points[x]
 	end
 
@@ -50,9 +49,8 @@ class Circle
 	def lowest_points
 		vals = {}
 		(@x1-@radius..@x1+@radius).each do |a|
-			vals[a] = @y1+Math.sqrt(@radius*@radius-(@x1-a)*(@x1-a)).round
+			vals[a] = Math.sqrt(@radius*@radius-(a-@x1)*(a-@x1)).round + @y1
 		end
-		#puts vals[@x1]
 		return vals
 	end
 

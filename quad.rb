@@ -70,6 +70,12 @@ class Quad < Gosu::Window
 		return [xs[ys.index(ys.max)], ys.max]
 	end
 
+	# Returns this shape's lowest y value on the canvas
+	def lowest_point_y
+		ys = [@y1, @y2, @y3, @y4]
+		return ys.max
+	end
+
 	# Returns this shape's highest point on the canvas
 	def highest_point
 		ys = [@y1, @y2, @y3, @y4]
@@ -118,5 +124,13 @@ class Quad < Gosu::Window
 
 	def findSlope(xCor1, yCor1, xCor2, yCor2)
 		(yCor2-yCor1) / (xCor1 - xCor2)
+	end
+
+	def lowest_points
+		vals = {}
+		(leftmost_x..rightmost_x).each do |a|
+			vals[a] = lowest_for_x(a)
+		end
+		return vals
 	end
 end

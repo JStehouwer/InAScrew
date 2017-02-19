@@ -15,14 +15,15 @@ class Car
 	end
 
 	def draw(camera_x, camera_y)
-=begin
-		Gosu.draw_quad(@x_anchor-camera_x-50,@y_anchor-50-camera_y,@white,
-									 @x_anchor-camera_x+50,@y_anchor-50-camera_y,@white,
-									 @x_anchor-camera_x+50,@y_anchor+50-camera_y,@white,
-									 @x_anchor-camera_x-50,@y_anchor+50-camera_y,@white,
-									 2)
-=end
-		@carArray.each{|shape| shape.draw(@x_anchor-camera_x, @y_anchor-camera_y)}
+		@carArray.each{|shape| shape.draw(@x_anchor-camera_x, @y_anchor)}
+	end
+
+	def gravitize(gravity)
+		@y_anchor += gravity
+	end
+
+	def upto(value)
+		@y_anchor += -1.0 * value
 	end
 
 	def move(x, y)
@@ -40,22 +41,18 @@ class Car
 
 	def lowest_points
 		leftmost = @carArray.map{|shape| shape.leftmost_x}.min
-		#puts(leftmost)
 		rightmost = @carArray.map{|shape| shape.rightmost_x}.max
-		#puts(rightmost)
 		result = {}
 		(leftmost..rightmost).each do |x|
 			max_y = 0
 			@carArray.each do |shape|
 				y = shape.lowest_for_x(x)
-				#puts(y)
 				if y
 					y += @y_anchor
 					max_y = max_y > y ? max_y : y
 				end
 			end
 			result[x] = max_y
-			#puts(max_y)
 		end
 		return result
 	end
@@ -66,11 +63,35 @@ class Car
 
 	def lowest_point
 		lowest = [@carArray.map{|shape|shape.lowest_point}].max
-		#puts("lowest point" , lowest)
-		return lowest
+		return lowest+@y_anchor
 	end
 
-#takes care from .txt file and puts into array shapeArray
+	def lowest_point_y
+		lowest = 0
+		lowest_x = 0
+		@carArray.each{|x|
+			if x.lowest_point[1] > lowest
+				lowest = x.lowest_point[1]
+				lowest_x = x.lowest_point[0]
+			end
+		}
+		return [lowest_x+@x_anchor,lowest+@y_anchor]
+	end
+
+	def lowest_points2
+		vals = {}
+		@carArray.each{|x|
+			temp_vals = x.lowest_points
+			for i in x.leftmost_x .. x.rightmost_x
+				if vals[i].nil? or temp_vals[i] > vals[i]
+					vals[i] = temp_vals[i]+@y_anchor
+				end
+			end
+		}
+		return vals
+	end
+
+	#takes car from .txt file and puts into array shapeArray
 	def load
   	shapeArray = Array.new
   	f = File.open(@filename, "r")
@@ -87,5 +108,4 @@ class Car
   	f.close
 		return shapeArray
 	end
-
 end

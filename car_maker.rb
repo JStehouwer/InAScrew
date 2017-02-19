@@ -30,8 +30,6 @@ class CarMaker < Gosu::Window
     @circleX1 = -1
     @circleX2 = -1
 
-    #@quadArray = Array.new
-    #@circleArray = Array.new
     @shapeArray = Array.new
 
     @frameNumber = 20
@@ -154,7 +152,6 @@ class CarMaker < Gosu::Window
           if dist(@circleX1, @circleY1, mouse_x, mouse_y) > 10
             @circleX2 = mouse_x
             @circleY2 = mouse_y
-            #@myCircle = Circle.new(@circleX1, @circleY1, @circleX2, @circleY2)
             @shapeArray.push(Circle.new(@circleX1, @circleY1, @circleX2, @circleY2)) 
             @circleX1 = -1       
             @circleY1 = -1
@@ -219,8 +216,6 @@ end
   end
 
   def draw
-    #@circleArray.each{|circle| circle.draw}
-    #@quadArray.each{|quad| quad.draw}
     @shapeArray.each{|shape| shape.draw(0,0)}
     @quadButton.draw
     @circleButton.draw

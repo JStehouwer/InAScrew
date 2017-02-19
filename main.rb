@@ -31,42 +31,29 @@ class Main < Gosu::Window
 
   def update
     if Gosu.button_down?(Gosu::KB_RIGHT)
-			#@camera_x += 20
-			@car.move(20, 0)
-		end
-		if Gosu.button_down?(Gosu::KB_LEFT)
-			#@camera_x -= 20
 			@car.move(-20, 0)
-		end
-		if Gosu.button_down?(Gosu::KB_UP)
+		elsif Gosu.button_down?(Gosu::KB_UP)
 			@camera_y -= 20
-		end
-		if Gosu.button_down?(Gosu::KB_DOWN)
+		elsif Gosu.button_down?(Gosu::KB_DOWN)
 			@camera_y += 20
-		end
-		if Gosu.button_down?(Gosu::KB_SPACE)
+		elsif Gosu.button_down?(Gosu::KB_SPACE)
 			@start = true
 		end
 		if @start
-			# MOve car here
-			#@car.move(5, 0)
-			#@camera_x += 5
-			feel_gravity_and_ground()
+			# Move car here
+			@car.move(1, 0)
+			@camera_x += 1
+			feel_gravity()
 		end
-		#puts(@car.get_anchor)
   end
 
 	
-	def feel_gravity_and_ground()
-		new_y_anchor = @map.is_grounded(@car) 
-		if new_y_anchor != -1 #if there is a part of it below ground
-			#puts(new_y_anchor)
-			#puts(@car.get_anchor[1])
-			@car.move(0,new_y_anchor-@car.get_anchor[1]) #push up
-			#puts("up!")
+	def feel_gravity()
+		dist_below_ground = @map.is_grounded2(@car)
+		if dist_below_ground < -1.0*@gravity #if there is a part of it below ground
+			@car.gravitize(@gravity) #otherwise, keep down
 		else
-			@car.move(0,@gravity) #otherwise, keep down
-			#puts("down!")
+			@car.upto(dist_below_ground) #push up
 		end
 	end
 

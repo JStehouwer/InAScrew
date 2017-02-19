@@ -12,7 +12,6 @@ class Map
 		coord_heights = [-60, -45, -30, -15, 0, 15, 30, 45, 60]
 		@y_coords = [@y_base,@y_base]
 		(1..500).each do |i|
-			#@y_coords << @y_coords[i-1]+coord_heights[rng.rand(0..coord_heights.length-1)]
 			@y_coords << @y_coords[i=1]+rng.rand(-50..50)
 		end
     @track_pieces = []
@@ -29,18 +28,39 @@ class Map
 
 	# returns first y val lower than the line, if there are no y vals lower than the line return -1
 	def is_grounded(object)
-		#puts "Is he below anyone?"
-		object_points = object.lowest_points() #hash returning all lowest points for each x
-		#puts(object_points[200])
-		@track_pieces.each do |piece| #for each track piece
-			val = piece.below_object(object.leftmost_point, object.rightmost_point, object_points) #returns y of first piece that is below line (starting from left on \ and right on /)
-			if val != -1
-				#puts(val[0],object_points[val[1]])
-				new_y_anchor = val[0]-object_points[val[1]] #subtracts the lowest point, to go from the proper location of the lowest point to the proper location of y_anchor
-				#puts(object_points[val[1]])				
-				return new_y_anchor #return first y val that is lower than line / proper location of y_anchor 
+		obj_low = object.lowest_point_y
+		obj_low_y = obj_low[1]
+		object_x = obj_low[0]
+		piece_num = object_x.to_i/@length.to_i
+		piece_offset = object_x.to_i%@length.to_i
+		track_y = (@track_pieces[piece_num]).get_y1 + @track_pieces[piece_num].get_slope*piece_offset + @track_pieces[piece_num].get_h
+		puts ("object_x")
+		puts (object_x)
+		puts ("obj_low_y")
+		puts(obj_low_y)
+		puts ("track_y")
+		puts(track_y)
+		return obj_low_y - track_y
+	end
+
+		# returns first y val lower than the line, if there are no y vals lower than the line return -1
+	def is_grounded2(object)
+		worryPoints = object.lowest_points2
+		for x in 0..object.rightmost_point
+			if not worryPoints[x].nil?
+				piece_num = (x+object.get_x).to_i/@length.to_i
+				piece_offset = (x+object.get_x).to_i%@length.to_i
+				track_y = (@track_pieces[piece_num]).get_y1 + @track_pieces[piece_num].get_slope*piece_offset + @track_pieces[piece_num].get_h
+				worryPoints[x] = track_y - worryPoints[x]
 			end
 		end
-		return -1 
+		pp = worryPoints.values.min
+		obj_low = object.lowest_point_y
+		obj_low_y = obj_low[1]
+		object_x = obj_low[0]
+		piece_num = object_x.to_i/@length.to_i
+		piece_offset = object_x.to_i%@length.to_i
+		track_y = (@track_pieces[piece_num]).get_y1 + @track_pieces[piece_num].get_slope*piece_offset + @track_pieces[piece_num].get_h
+		return obj_low_y - track_y
 	end
 end

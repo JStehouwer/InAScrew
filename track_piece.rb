@@ -15,11 +15,23 @@ class TrackPiece < Gosu::Image
   end
 
   def draw(camera_x, camera_y)
-    Gosu.draw_quad(@x1-camera_x,@y1-camera_y,@white,
-									 @x2-camera_x,@y2-camera_y,@white,
-									 @x2-camera_x,@y2+@h-camera_y,@white,
-									 @x1-camera_x,@y1+@h-camera_y,@white,
+    Gosu.draw_quad(@x1-camera_x,@y1,@white,
+									 @x2-camera_x,@y2,@white,
+									 @x2-camera_x,@y2+@h,@white,
+									 @x1-camera_x,@y1+@h,@white,
 									 1)
+  end
+
+  def get_h
+  	return @h
+  end
+
+  def get_y1
+  	return @y1
+  end
+
+  def get_slope
+  	return (@y2.to_f-@y1.to_f)/(@x2.to_f-@x1.to_f)
   end
 
 	def below_object(object_left, object_right, object_points)
