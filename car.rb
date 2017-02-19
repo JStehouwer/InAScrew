@@ -21,7 +21,7 @@ class Car
 									 @x_anchor-camera_x-50,@y_anchor+50-camera_y,@white,
 									 2)
 =end
-		@carArray.each{|shape| shape.draw(@x_anchor, @y_anchor)}
+		@carArray.each{|shape| shape.draw(@x_anchor-camera_x, @y_anchor-camera_y)}
 	end
 
 	def move(x, y)
@@ -30,11 +30,11 @@ class Car
 	end
 
 	def rightmost_point
-		return @x_anchor+50
+		return @carArray.map{|shape| shape.rightmost_x}.max
 	end
 
 	def leftmost_point
-		return @x_anchor-50
+		return @carArray.map{|shape| shape.leftmost_x}.min
 	end
 
 	def lowest_points
@@ -64,7 +64,7 @@ class Car
 
 	def lowest_point
 		lowest = [@carArray.map{|shape|shape.lowest_point}].max
-		puts("lowest point" , lowest)
+		#puts("lowest point" , lowest)
 		return lowest
 	end
 

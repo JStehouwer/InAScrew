@@ -26,6 +26,7 @@ class TrackPiece < Gosu::Image
 		unless object_right < @x1 or object_left > @x2
 			#puts("in bounds")
 			if @slope > 0 # \
+				puts(@slope)
 				(@x1..@x2).each do |x|
 					if object_points[x] # If car has point here
 						if object_points[x] > @y1+@slope*(x-@x1)
@@ -34,6 +35,7 @@ class TrackPiece < Gosu::Image
 					end
 				end
 			else # else slope /
+				puts(@slope)
 				(@x2).downto(@x1) do |x|
 					if object_points[x] # If car has point here
 						if object_points[x] > @y1+@slope*(x-@x1)

@@ -8,7 +8,7 @@ class Circle
   end
 
   def draw(xCor, yCor)
-    @circle.draw(@x1-@radius,@y1-@radius + yCor,1,@radius*0.006,@radius*0.006) #drawing at center
+    @circle.draw(@x1-@radius + xCor,@y1-@radius + yCor,1,@radius*0.006,@radius*0.006) #drawing at center
   end
 
   def dist(spotX, spotY, spotX2, spotY2)

@@ -29,12 +29,14 @@ class Map
 
 	# returns first y val lower than the line, if there are no y vals lower than the line return -1
 	def is_grounded(object)
-		puts "Is he below anyone?"
+		#puts "Is he below anyone?"
 		object_points = object.lowest_points() #hash returning all lowest points for each x
 		@track_pieces.each do |piece| #for each track piece
 			val = piece.below_object(object.leftmost_point, object.rightmost_point, object_points) #returns y of first piece that is below line (starting from left on \ and right on /)
 			if val != -1
+				#puts(val)
 				new_y_anchor = val[0]-object_points[val[1]] #subtracts the lowest point, to go from the proper location of the lowest point to the proper location of y_anchor
+				#puts(new_y_anchor)				
 				return new_y_anchor #return first y val that is lower than line / proper location of y_anchor 
 			end
 		end

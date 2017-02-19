@@ -7,7 +7,7 @@ class Quad < Gosu::Window
   end
 
   def draw(xCor, yCor)
-    draw_quad(@x1, @y1 + yCor, Gosu::Color.argb(0xffffffff), @x2, @y2 + yCor, Gosu::Color.argb(0xffffffff), @x3, @y3+yCor, 0xffffffff, @x4, @y4 + yCor, Gosu::Color.argb(0xffffffff), z=1, mode = :default) #draw on coordinates
+    draw_quad(@x1 + xCor, @y1 + yCor, Gosu::Color.argb(0xffffffff), @x2 + xCor, @y2 + yCor, Gosu::Color.argb(0xffffffff), @x3 + xCor, @y3+yCor, 0xffffffff, @x4 + xCor, @y4 + yCor, Gosu::Color.argb(0xffffffff), z=1, mode = :default) #draw on coordinates
   end
 
   def toString
