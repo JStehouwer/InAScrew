@@ -24,15 +24,16 @@ class TrackPiece < Gosu::Image
 
 	def below_object(object_left, object_right, object_points)
 		unless object_right < @x1 or object_left > @x2
-			if @slope > 0
+			#puts("in bounds")
+			if @slope > 0 # \
 				(@x1..@x2).each do |x|
 					if object_points[x] # If car has point here
 						if object_points[x] > @y1+@slope*(x-@x1)
-							return @y1+@slope*(x-@x1)
+							return @y1+@slope*(x-@x1) #returns the first point below
 						end
 					end
 				end
-			else
+			else # else slope /
 				(@x2).downto(@x1) do |x|
 					if object_points[x] # If car has point here
 						if object_points[x] > @y1+@slope*(x-@x1)

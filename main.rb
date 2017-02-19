@@ -48,16 +48,17 @@ class Main < Gosu::Window
 			# MOve car here
 			@car.move(5, 0)
 			@camera_x += 5
-			feel_gravity(@car)
+			feel_gravity()
 		end
   end
 
-	def feel_gravity(object)
-		val = @map.is_grounded(@car)
-		if val != -1
-			@car.upto(val)
+	
+	def feel_gravity()
+		val = @map.is_grounded(@car) 
+		if val != -1 #if there is a part of it below ground
+			@car.upto(val) #push up
 		else
-			@car.gravitize(@gravity)
+			@car.gravitize(@gravity) #otherwise, keep down
 		end
 	end
 

@@ -1,4 +1,7 @@
 require 'gosu'
+require_relative 'circle.rb'
+require_relative 'quad.rb'
+
 
 class Car
 
@@ -7,14 +10,18 @@ class Car
 		@y_anchor = y_anchor
 		@rot = 0
 		@white = Gosu::Color::WHITE
+		@carArray = load()
 	end
 
 	def draw(camera_x, camera_y)
+=begin
 		Gosu.draw_quad(@x_anchor-camera_x-50,@y_anchor-50-camera_y,@white,
 									 @x_anchor-camera_x+50,@y_anchor-50-camera_y,@white,
 									 @x_anchor-camera_x+50,@y_anchor+50-camera_y,@white,
 									 @x_anchor-camera_x-50,@y_anchor+50-camera_y,@white,
 									 2)
+=end
+		@carArray.each{|shape| shape.draw(@x_anchor, @y_anchor)}
 	end
 
 	def gravitize(gravity)
@@ -39,9 +46,18 @@ class Car
 	end
 
 	def lowest_points
+		leftmost = @carArray.map{|shape| shape.leftmost_x}.min
+		rightmost = @carArray.map{|shape| shape.rightmost_x}.max
 		result = {}
-		(@x_anchor-50..@x_anchor+50).each do |x|
-			result[x] = @y_anchor+50
+		(leftmost..rightmost).each do |x|
+			max_y = 0
+			@carArray.each do |shape|
+				y = shape.lowest_for_x(x)
+				if y
+					max_y = max_y > y ? max_y : y
+				end
+			end
+			result[x] = max_y
 		end
 		return result
 	end
@@ -50,22 +66,28 @@ class Car
 		return @x_anchor
 	end
 
+	def lowest_point
+		lowest = [@carArray.map{|shape|shape.lowest_point}].max
+		puts("lowest point" , lowest)
+		return lowest
+	end
+
+#takes care from .txt file and puts into array shapeArray
 	def load
-    	shapeArray = Array.new
-    	f = File.open("dopestCarEva.txt", "r")
-    	f.each_line { |line|
-    		words = line.split
-    		numbers = Array.new
-    		words.each{|word| numbers.push(word.to_f)}
-    		print words[0]
-    		print words[1]
-    		if numbers[0] == 1
-        		shapeArray.push(Quad.new(numbers[1],numbers[2],numbers[3],numbers[4],numbers[5],numbers[6],numbers[7],numbers[8]))
-    		elsif numbers[0] == 2
-        		shapeArray.push(Circle.new(numbers[1],numbers[2],numbers[1]+numbers[3],numbers[2]))
-    		end
-    	}
-    	f.close
-  end
+  	shapeArray = Array.new
+  	f = File.open("dopestCarEva.txt", "r")
+  	f.each_line { |line|
+  		words = line.split
+  		numbers = Array.new
+  		words.each{|word| numbers.push(word.to_f)}
+  		if numbers[0] == 1
+      		shapeArray.push(Quad.new(numbers[1],numbers[2],numbers[3],numbers[4],numbers[5],numbers[6],numbers[7],numbers[8]))
+  		elsif numbers[0] == 2
+      		shapeArray.push(Circle.new(numbers[1],numbers[2],numbers[1]+numbers[3],numbers[2]))
+  		end
+  	}
+  	f.close
+		return shapeArray
+	end
 
 end

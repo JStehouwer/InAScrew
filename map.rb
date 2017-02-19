@@ -9,9 +9,9 @@ class Map
 		@x_start = 50
 		@length = piece_length
 		@y_base = w_height-250
-		coord_heights = [-45, -30, -15, 0, 15, 30, 45]
+		coord_heights = [-60, -45, -30, -15, 0, 15, 30, 45, 60]
 		@y_coords = [@y_base,@y_base]
-		(1..100).each do |i|
+		(1..500).each do |i|
 			#@y_coords << @y_coords[i-1]+coord_heights[rng.rand(0..coord_heights.length-1)]
 			@y_coords << @y_coords[i=1]+rng.rand(-50..50)
 		end
@@ -27,14 +27,16 @@ class Map
     end
   end
 
+	# returns first y val lower than the line, if there are no y vals lower than the line return -1
 	def is_grounded(object)
-		object_points = object.lowest_points()
-		@track_pieces.each do |piece|
-			val = piece.below_object(object.leftmost_point, object.rightmost_point, object_points)
+		puts "Is he below anyone?"
+		object_points = object.lowest_points() #hash returning all lowest points for each x
+		@track_pieces.each do |piece| #for each track piece
+			val = piece.below_object(object.leftmost_point, object.rightmost_point, object_points) #returns y of first pix that is below line (starting from left on \ and right on /)
 			if val != -1
-				return val
+				return val #return first y val that is lower than line
 			end
 		end
-		return -1
+		return -1 
 	end
 end
