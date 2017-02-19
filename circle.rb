@@ -15,4 +15,8 @@ class Circle
      Math.sqrt( (spotX - spotX2)*(spotX - spotX2) + (spotY - spotY2)*(spotY - spotY2) )
   end
 
+  def toString
+     "2 " + @x1.to_s + " " + @y1.to_s + " " + @radius.to_s
+  end
+
 end

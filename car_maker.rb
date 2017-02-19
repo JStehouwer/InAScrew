@@ -3,6 +3,7 @@ require 'pry'
 require_relative 'circle.rb'
 require_relative 'quad.rb'
 require_relative 'button.rb'
+require_relative 'car.rb'
 
 class CarMaker < Gosu::Window
   def initialize
@@ -28,10 +29,13 @@ class CarMaker < Gosu::Window
 
     @mode = 0
 
+    @saved = false
+
     @myCircle = Circle.new(100,100, 200, 200)
     @myQuad = Quad.new(10,10,10,20,20,20,20,10)
     @quadButton = Button.new(0,0,"media/quadButton1.png", "media/quadButton2.png", 200, 50)
     @circleButton = Button.new(200, 0, "media/circleButton1.png", "media/circleButton2.png", 200, 50)
+    @saveButton = Button.new(400,0, "media/saveButton1.png","media/saveButton1.png",150,50)
 
   end
 
@@ -40,15 +44,27 @@ class CarMaker < Gosu::Window
     if button_down?(Gosu::MsLeft)
 
       if (@quadButton.isClicked(mouse_x, mouse_y))
+        @saveButton.onRelease
+        @saved = false
         @quadButton.onClick
         @circleButton.onRelease
         @mode = 1
 
       elsif (@circleButton.isClicked(mouse_x, mouse_y))
+        @saveButton.onRelease
+        @saved = false
         @circleButton.onClick
         @quadButton.onRelease
         @mode = 2
 
+      elsif (@saveButton.isClicked(mouse_x, mouse_y))
+        @saveButton.onClick
+        @circleButton.onRelease
+        @quadButton.onRelease
+        if not @saved
+          @saved = true
+          save
+        end
 
     elsif @mode == 1
         puts("X1: ", @clickedX1, "Y1: ", @clickedY1, "X2 ", @clickedX2, "Y2 ", @clickedY2, "X3 " ,@clickedX3, "Y3 " , @clickedY3, "X4 ", @clickedX4, "Y4", @clickedY4)
@@ -109,16 +125,32 @@ class CarMaker < Gosu::Window
      Math.sqrt( (spotX - spotX2)*(spotX - spotX2) + (spotY - spotY2)*(spotY - spotY2) )
   end
 
+  def save
+    open("dopestCarEva.txt", 'w') { |f|
+      @shapeArray.each{|shape| f << shape.toString << "\n"}
+    }
+  end
+
   def draw
-    # ...
     @myQuad.draw
     #@circleArray.each{|circle| circle.draw}
     #@quadArray.each{|quad| quad.draw}
     @shapeArray.each{|shape| shape.draw}
     @quadButton.draw
     @circleButton.draw
+    @saveButton.draw
     draw_quad(mouse_x, mouse_y, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y+5, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y, 0xffffffff, mouse_x, mouse_y+5, Gosu::Color.argb(0xffffffff), z=500, mode = :default)
   end
 end
+
+  def button_down(id)
+    if id == Gosu::KB_ESCAPE
+      close
+    else
+      super
+    end
+  end
+
+
 end
 CarMaker.new.show
