@@ -30,12 +30,16 @@ class CarMaker < Gosu::Window
     @mode = 0
 
     @saved = false
+    @loaded = false
 
     @myCircle = Circle.new(100,100, 200, 200)
     @myQuad = Quad.new(10,10,10,20,20,20,20,10)
-    @quadButton = Button.new(0,0,"media/quadButton1.png", "media/quadButton2.png", 200, 50)
-    @circleButton = Button.new(200, 0, "media/circleButton1.png", "media/circleButton2.png", 200, 50)
-    @saveButton = Button.new(400,0, "media/saveButton1.png","media/saveButton1.png",150,50)
+    @quadButton = Button.new(0,0,"media/quadButton1.png", "media/quadButton2.png", 195, 46)
+    @circleButton = Button.new(195, 0, "media/circleButton1.png", "media/circleButton2.png", 193, 46)
+    @deleteButton = Button.new(388,0, "media/deleteButton1.png","media/deleteButton2.png",195,46)
+    @saveButton = Button.new(0,46, "media/saveButton1.png","media/saveButton2.png",102,46)
+    @loadButton = Button.new(102,46, "media/loadButton1.png","media/loadButton2.png",103,46)
+    @helpButton = Button.new(205,46, "media/helpButton1.png","media/helpButton2.png",102,46)
 
   end
 
@@ -46,6 +50,8 @@ class CarMaker < Gosu::Window
       if (@quadButton.isClicked(mouse_x, mouse_y))
         @saveButton.onRelease
         @saved = false
+        @loadButton.onRelease
+        @loaded = false
         @quadButton.onClick
         @circleButton.onRelease
         @mode = 1
@@ -53,6 +59,8 @@ class CarMaker < Gosu::Window
       elsif (@circleButton.isClicked(mouse_x, mouse_y))
         @saveButton.onRelease
         @saved = false
+        @loadButton.onRelease
+        @loaded = false
         @circleButton.onClick
         @quadButton.onRelease
         @mode = 2
@@ -61,11 +69,20 @@ class CarMaker < Gosu::Window
         @saveButton.onClick
         @circleButton.onRelease
         @quadButton.onRelease
+        @loadButton.onRelease
         if not @saved
           @saved = true
+          save
+        end
+      elsif (@loadButton.isClicked(mouse_x, mouse_y))
+        @loadButton.onClick
+        @circleButton.onRelease
+        @quadButton.onRelease
+        @saveButton.onRelease
+        if not @loaded
+          @loaded = true
           load
         end
-
     elsif @mode == 1
         puts("X1: ", @clickedX1, "Y1: ", @clickedY1, "X2 ", @clickedX2, "Y2 ", @clickedY2, "X3 " ,@clickedX3, "Y3 " , @clickedY3, "X4 ", @clickedX4, "Y4", @clickedY4)
         if @clickedX1 == -1  #have not reset
@@ -158,7 +175,10 @@ class CarMaker < Gosu::Window
     @shapeArray.each{|shape| shape.draw}
     @quadButton.draw
     @circleButton.draw
+    @deleteButton.draw
     @saveButton.draw
+    @loadButton.draw
+    @helpButton.draw
     draw_quad(mouse_x, mouse_y, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y+5, Gosu::Color.argb(0xffffffff), mouse_x+5, mouse_y, 0xffffffff, mouse_x, mouse_y+5, Gosu::Color.argb(0xffffffff), z=500, mode = :default)
   end
 end
