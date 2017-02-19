@@ -29,7 +29,7 @@ class TrackPiece < Gosu::Image
 				(@x1..@x2).each do |x|
 					if object_points[x] # If car has point here
 						if object_points[x] > @y1+@slope*(x-@x1)
-							return @y1+@slope*(x-@x1) #returns the first point below
+							return [(@y1+@slope*(x-@x1)),x] #returns the first point below, and the x-value
 						end
 					end
 				end
@@ -37,7 +37,7 @@ class TrackPiece < Gosu::Image
 				(@x2).downto(@x1) do |x|
 					if object_points[x] # If car has point here
 						if object_points[x] > @y1+@slope*(x-@x1)
-							return @y2-@slope*(@x2-x)
+							return [(@y2-@slope*(@x2-x)),x]
 						end
 					end
 				end

@@ -54,11 +54,14 @@ class Main < Gosu::Window
 
 	
 	def feel_gravity()
-		val = @map.is_grounded(@car) 
-		if val != -1 #if there is a part of it below ground
-			@car.upto(val) #push up
+		new_y_anchor = @map.is_grounded(@car) 
+		puts(new_y_anchor)
+		if new_y_anchor != -1 #if there is a part of it below ground
+			@car.move(0,new_y_anchor-@car.get_anchor[1]) #push up
+			puts("up!")
 		else
-			@car.gravitize(@gravity) #otherwise, keep down
+			@car.move(0,@gravity) #otherwise, keep down
+			puts("down!")
 		end
 	end
 

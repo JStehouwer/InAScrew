@@ -24,14 +24,6 @@ class Car
 		@carArray.each{|shape| shape.draw(@x_anchor, @y_anchor)}
 	end
 
-	def gravitize(gravity)
-		@y_anchor += gravity
-	end
-
-	def upto(value)
-		@y_anchor = value - 50
-	end
-
 	def move(x, y)
 		@x_anchor += x
 		@y_anchor += y
@@ -47,12 +39,16 @@ class Car
 
 	def lowest_points
 		leftmost = @carArray.map{|shape| shape.leftmost_x}.min
+		#puts(leftmost)
 		rightmost = @carArray.map{|shape| shape.rightmost_x}.max
+		#puts(rightmost)
 		result = {}
 		(leftmost..rightmost).each do |x|
 			max_y = 0
 			@carArray.each do |shape|
 				y = shape.lowest_for_x(x)
+				y = y ? y+@y_anchor : 0
+				#puts(y)
 				if y
 					max_y = max_y > y ? max_y : y
 				end
@@ -62,8 +58,8 @@ class Car
 		return result
 	end
 
-	def get_x
-		return @x_anchor
+	def get_anchor
+		return [@x_anchor,@y_anchor]
 	end
 
 	def lowest_point
