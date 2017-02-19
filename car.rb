@@ -69,25 +69,25 @@ class Car
 	def lowest_point_y
 		lowest = 0
 		lowest_x = 0
-		@carArray.each{|x|
+		@carArray.each do |x|
 			if x.lowest_point[1] > lowest
 				lowest = x.lowest_point[1]
 				lowest_x = x.lowest_point[0]
 			end
-		}
+		end
 		return [lowest_x+@x_anchor,lowest+@y_anchor]
 	end
 
 	def lowest_points2
 		vals = {}
-		@carArray.each{|x|
+		@carArray.each do |x|
 			temp_vals = x.lowest_points
-			for i in x.leftmost_x .. x.rightmost_x
-				if vals[i].nil? or temp_vals[i] > vals[i]
+			for i in (x.leftmost_x .. x.rightmost_x)
+				if (vals[i].nil? and temp_vals[i]) or temp_vals[i] > vals[i]
 					vals[i] = temp_vals[i]+@y_anchor
 				end
 			end
-		}
+		end
 		return vals
 	end
 
@@ -95,17 +95,23 @@ class Car
 	def load
   	shapeArray = Array.new
   	f = File.open(@filename, "r")
-  	f.each_line { |line|
+  	f.each_line do |line|
   		words = line.split
   		numbers = Array.new
-  		words.each{|word| numbers.push(word.to_f)}
-  		if numbers[0] == 1
-      		shapeArray.push(Quad.new(numbers[1],numbers[2],numbers[3],numbers[4],numbers[5],numbers[6],numbers[7],numbers[8]))
-  		elsif numbers[0] == 2
-      		shapeArray.push(Circle.new(numbers[1],numbers[2],numbers[1]+numbers[3],numbers[2]))
+  		words.each do |word|
+				numbers.push(word.to_f)
+			end
+	  	if numbers[0] == 1
+      	shapeArray.push(Quad.new(numbers[1],numbers[2],numbers[3],numbers[4],numbers[5],numbers[6],numbers[7],numbers[8]))
+	 		elsif numbers[0] == 2
+     		shapeArray.push(Circle.new(numbers[1],numbers[2],numbers[1]+numbers[3],numbers[2]))
   		end
-  	}
+  	end
   	f.close
 		return shapeArray
+	end
+
+	def get_x
+		return @x_anchor
 	end
 end

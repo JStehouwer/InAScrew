@@ -97,7 +97,6 @@ class CarMaker < Gosu::Window
         end
         @mode = 0
       elsif (@deleteButton.isClicked(mouse_x, mouse_y))
-        puts("delete button")
         @saveButton.onRelease
         @saved = false
         @loadButton.onRelease
@@ -106,9 +105,7 @@ class CarMaker < Gosu::Window
         @quadButton.onRelease
         @deleteButton.onClick
         @mode = 3
-        puts(@mode.to_s)
     elsif @mode == 1
-        puts("X1: ", @clickedX1, "Y1: ", @clickedY1, "X2 ", @clickedX2, "Y2 ", @clickedY2, "X3 " ,@clickedX3, "Y3 " , @clickedY3, "X4 ", @clickedX4, "Y4", @clickedY4)
         if @clickedX1 == -1  #have not reset
           if dist(@clickedX4, @clickedY4, mouse_x, mouse_y) > 10
             @clickedX1 = mouse_x #set to where we are
@@ -140,7 +137,6 @@ class CarMaker < Gosu::Window
           end
       end
     elsif @mode == 2
-        puts("X1: ", @clickedX1, "Y1: ", @clickedY1, "X2 ", @clickedX2, "Y2 ", @clickedY2)
         if @circleX1 == -1  #have not reset
           if dist(@circleX2, @circleY2, mouse_x, mouse_y) > 10
             @circleX1 = mouse_x #set to where we are
@@ -159,20 +155,17 @@ class CarMaker < Gosu::Window
         end
     elsif @mode == 3
       if @frameNumber > 6
-      puts("mode 3")
       deleted = false
       tempShapeArray = Array.new #new shape array
       while not @shapeArray.to_a.empty? #while the shape array is not empty
         temp = @shapeArray.pop
         if not deleted #if the shape should be deleted
-          puts ("Shape deleted")
           deleted = true
           @frameNumber = 0
         else
           tempShapeArray.push(temp)
         end
       end
-      puts(tempShapeArray.length)
       @shapeArray = Array.new
       while not tempShapeArray.to_a.empty?
         @shapeArray.push(tempShapeArray.pop)
@@ -185,7 +178,6 @@ class CarMaker < Gosu::Window
 end
 
   def dist(spotX, spotY, spotX2, spotY2)
-    puts('spotX', spotX, 'spotY', spotY, 'spotX2', spotX2, 'spotY2', spotY2)
      Math.sqrt( (spotX - spotX2)*(spotX - spotX2) + (spotY - spotY2)*(spotY - spotY2) )
   end
 
@@ -197,15 +189,11 @@ end
 
   def load
     @shapeArray = Array.new
-    puts "hi"
     f = File.open(@filename, "r")
-      puts "I am happy."
       f.each_line { |line|
       words = line.split
       numbers = Array.new
       words.each{|word| numbers.push(word.to_f)}
-      print words[0]
-      print words[1]
       if numbers[0] == 1
         @shapeArray.push(Quad.new(numbers[1],numbers[2],numbers[3],numbers[4],numbers[5],numbers[6],numbers[7],numbers[8]))
       elsif numbers[0] == 2

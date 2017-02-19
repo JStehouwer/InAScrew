@@ -45,16 +45,16 @@ class Map
 
 		# returns first y val lower than the line, if there are no y vals lower than the line return -1
 	def is_grounded2(object)
-		worryPoints = object.lowest_points2
-		for x in 0..object.rightmost_point
-			if not worryPoints[x].nil?
-				piece_num = (x+object.get_x).to_i/@length.to_i
-				piece_offset = (x+object.get_x).to_i%@length.to_i
-				track_y = (@track_pieces[piece_num]).get_y1 + @track_pieces[piece_num].get_slope*piece_offset + @track_pieces[piece_num].get_h
-				worryPoints[x] = track_y - worryPoints[x]
-			end
-		end
-		pp = worryPoints.values.min
+		#worryPoints = object.lowest_points2
+		#for x in 0..object.rightmost_point
+		#	if not worryPoints[x].nil?
+		#		piece_num = (x+object.get_x).to_i/@length.to_i
+		#		piece_offset = (x+object.get_x).to_i%@length.to_i
+		#		track_y = (@track_pieces[piece_num]).get_y1 + @track_pieces[piece_num].get_slope*piece_offset + @track_pieces[piece_num].get_h
+		#		worryPoints[x] = track_y - worryPoints[x]
+		#	end
+		#end
+		#pp = worryPoints.values.min
 		obj_low = object.lowest_point_y
 		obj_low_y = obj_low[1]
 		object_x = obj_low[0]
