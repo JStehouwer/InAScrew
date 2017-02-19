@@ -7,6 +7,13 @@ require_relative 'car.rb'
 
 class CarMaker < Gosu::Window
   def initialize
+		@filename = "dopestCarEva.txt"
+		# Parse arguments
+		(0..ARGV.length-1).each do |arg|
+			if ARGV[arg] == "-f"
+				@filename = ARGV[arg+1]
+			end
+		end
     super 640, 480
     self.caption = "Tutorial Game"
     @clickedX1 = -1
@@ -186,7 +193,7 @@ end
   end
 
   def save
-    open("dopestCarEva.txt", 'w') { |f|
+    open(@filename, 'w') { |f|
       @shapeArray.each{|shape| f << shape.toString << "\n"}
     }
   end
@@ -194,7 +201,7 @@ end
   def load
     @shapeArray = Array.new
     puts "hi"
-    f = File.open("dopestCarEva.txt", "r")
+    f = File.open(@filename, "r")
       puts "I am happy."
       f.each_line { |line|
       words = line.split

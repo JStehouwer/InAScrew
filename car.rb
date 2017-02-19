@@ -5,11 +5,12 @@ require_relative 'quad.rb'
 
 class Car
 
-	def initialize(x_anchor, y_anchor)
+	def initialize(x_anchor, y_anchor, filename)
 		@x_anchor = x_anchor
 		@y_anchor = y_anchor
 		@rot = 0
 		@white = Gosu::Color::WHITE
+		@filename = filename
 		@carArray = load()
 	end
 
@@ -72,7 +73,7 @@ class Car
 #takes care from .txt file and puts into array shapeArray
 	def load
   	shapeArray = Array.new
-  	f = File.open("dopestCarEva.txt", "r")
+  	f = File.open(@filename, "r")
   	f.each_line { |line|
   		words = line.split
   		numbers = Array.new

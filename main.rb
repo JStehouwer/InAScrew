@@ -7,23 +7,26 @@ class Main < Gosu::Window
     super 1024, 768
     self.caption = "Game"
 
-		rng = Random.new()
+		@rng = Random.new()
+		@filename = "dopestCarEva.txt"
 		# Parse arguments
 		(0..ARGV.length-1).each do |arg|
 			if ARGV[arg] == "-r"
-				rng = Random.new(ARGV[arg+1].to_i)
-				puts "Seed set"
+				@rng = Random.new(ARGV[arg+1].to_i)
+			end
+			if ARGV[arg] == "-f"
+				@filename = ARGV[arg+1]
 			end
 		end
 
-		@map = Map.new(self.height,self.width,rng,150)
+		@map = Map.new(self.height,self.width,@rng,150)
 
     @background_image = Gosu::Image.new("media/background.png", :tileable=>true);
 		@camera_x = 0
 		@camera_y = 0
 		@gravity = 3
 
-		@car = Car.new(125, 400)
+		@car = Car.new(125, 400, @filename)
   end
 
   def update
