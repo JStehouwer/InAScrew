@@ -212,10 +212,9 @@ end
   end
 
   def draw
-    @myQuad.draw
     #@circleArray.each{|circle| circle.draw}
     #@quadArray.each{|quad| quad.draw}
-    @shapeArray.each{|shape| shape.draw}
+    @shapeArray.each{|shape| shape.draw(0,0)}
     @quadButton.draw
     @circleButton.draw
     @deleteButton.draw
